@@ -287,44 +287,79 @@ export default function Admin() {
             </CardContent>
           </Card>
 
-          {/* Top Donors */}
+          {/* Registered Donors */}
           <Card>
             <CardHeader>
               <div className="flex justify-between items-center">
-                <CardTitle>Top Donors This Month</CardTitle>
+                <CardTitle>Registered Donors</CardTitle>
                 <Button variant="link" className="text-primary p-0 h-auto">
                   View All
                 </Button>
               </div>
             </CardHeader>
             <CardContent>
-              {topDonors.length > 0 ? (
-                <div className="space-y-4">
-                  {topDonors.map((donor: any, index: number) => (
-                    <div key={donor.id} className="flex items-center space-x-3">
-                      <div className={`w-10 h-10 rounded-full flex items-center justify-center text-white font-bold ${
-                        index === 0 ? 'bg-yellow-500' : 
-                        index === 1 ? 'bg-gray-400' : 
-                        'bg-orange-500'
-                      }`}>
-                        {index + 1}
-                      </div>
-                      <Avatar className="w-10 h-10">
-                        <AvatarImage src={donor.profilePicture || undefined} alt={donor.fullName} />
-                        <AvatarFallback>{getUserInitials(donor.fullName)}</AvatarFallback>
-                      </Avatar>
-                      <div className="flex-grow">
-                        <p className="font-medium text-gray-900 text-sm">{donor.fullName}</p>
-                        <p className="text-xs text-gray-600">{donor.donationCount} donations total</p>
-                      </div>
-                      <div className="text-primary font-semibold text-sm">{donor.bloodGroup}</div>
-                    </div>
-                  ))}
+              {donors.length > 0 ? (
+                <div className="overflow-x-auto">
+                  <Table>
+                    <TableHeader>
+                      <TableRow>
+                        <TableHead>Name</TableHead>
+                        <TableHead>Blood Group</TableHead>
+                        <TableHead>District</TableHead>
+                        <TableHead>Status</TableHead>
+                        <TableHead>Action</TableHead>
+                      </TableRow>
+                    </TableHeader>
+                    <TableBody>
+                      {donors.slice(0, 5).map((donor: any) => (
+                        <TableRow key={donor.id}>
+                          <TableCell>
+                            <div className="flex items-center space-x-3">
+                              <Avatar className="w-8 h-8">
+                                <AvatarImage src={donor.profilePicture || undefined} alt={donor.fullName} />
+                                <AvatarFallback>{getUserInitials(donor.fullName)}</AvatarFallback>
+                              </Avatar>
+                              <div>
+                                <p className="font-medium text-gray-900 text-sm">{donor.fullName}</p>
+                                <p className="text-xs text-gray-600">{donor.donationCount} donations</p>
+                              </div>
+                            </div>
+                          </TableCell>
+                          <TableCell>
+                            <Badge className="bg-red-100 text-red-800">
+                              {donor.bloodGroup}
+                            </Badge>
+                          </TableCell>
+                          <TableCell>
+                            <span className="text-sm text-gray-600">{donor.district}</span>
+                          </TableCell>
+                          <TableCell>
+                            <Badge 
+                              variant={donor.isVerified ? 'default' : 'outline'}
+                              className={
+                                donor.isVerified 
+                                  ? 'bg-green-100 text-green-800' 
+                                  : 'bg-gray-100 text-gray-800'
+                              }
+                            >
+                              {donor.isVerified ? 'Verified' : 'Pending'}
+                            </Badge>
+                          </TableCell>
+                          <TableCell>
+                            <Button variant="link" className="text-blue-600 p-0 h-auto text-xs">
+                              <Eye className="w-3 h-3 mr-1" />
+                              View
+                            </Button>
+                          </TableCell>
+                        </TableRow>
+                      ))}
+                    </TableBody>
+                  </Table>
                 </div>
               ) : (
                 <div className="text-center py-8">
-                  <Award className="w-12 h-12 text-gray-300 mx-auto mb-4" />
-                  <p className="text-gray-500">No donors this month</p>
+                  <Users className="w-12 h-12 text-gray-300 mx-auto mb-4" />
+                  <p className="text-gray-500">No donors registered</p>
                 </div>
               )}
             </CardContent>

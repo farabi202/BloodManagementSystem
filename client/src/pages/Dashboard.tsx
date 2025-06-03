@@ -307,15 +307,7 @@ export default function Dashboard() {
               </CardContent>
             </Card>
 
-            {/* Donation Trend Chart */}
-            <Card>
-              <CardHeader>
-                <CardTitle>Donation Trend</CardTitle>
-              </CardHeader>
-              <CardContent>
-                <DonationTrendChart data={donationTrendData} />
-              </CardContent>
-            </Card>
+        
           </div>
         </div>
       </div>

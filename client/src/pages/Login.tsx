@@ -101,7 +101,7 @@ export default function Login() {
             <CardTitle className="text-3xl font-bold text-gray-900">
               Welcome Back
             </CardTitle>
-            <p className="text-gray-600 mt-2">Sign in to your BDMS account</p>
+            <p className="text-gray-600 mt-2">Sign in to your PulseCare account</p>
           </CardHeader>
 
           <CardContent>
@@ -233,14 +233,7 @@ export default function Login() {
               </p>
             </div>
 
-            {/* Demo Credentials */}
-            <div className="mt-6 p-4 bg-blue-50 rounded-lg border border-blue-200">
-              <h4 className="text-sm font-medium text-blue-900 mb-2">Demo Credentials:</h4>
-              <div className="text-xs text-blue-800 space-y-1">
-                <p><strong>Admin:</strong> admin / admin123</p>
-                <p><strong>Donor:</strong> sarah.ahmed / password123</p>
-              </div>
-            </div>
+
           </CardContent>
         </Card>
       </div>
