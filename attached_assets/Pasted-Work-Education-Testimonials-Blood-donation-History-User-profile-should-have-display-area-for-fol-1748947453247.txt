@@ -1,0 +1,150 @@
+Work, Education, Testimonials, Blood donation History. User profile should have display area for following (like Facebook)
+	Users Education Details 
+	Current town/city
+	Hometown
+//inspired from Facebook
+	Blood Donation History 
+//inspired from LinkedIn 
+	Testimonial 
+	Social Link 
+4. Underneath the display area their will be a edit details button. This button will allow users to update their information. 
+	When user click on edit details a pop up shall appear with the information edit and update functionality.
+	On that pop up following section or option should be included
+	Work 
+o	This section should let user enter their 3 most recent work history
+o	On the work section there will be an option “Add Workspace”
+o	When user click that option they will have to enter following information 
+1. Company
+2. Position
+3. City/ Town
+4. Description [Character limit 1000]
+5. Time Period 
+    i. From [Date field]
+ii. I currently work here checkbox
+iii. To [Date field]
+	Users Education Details
+o	User shall be able to enter their University/College and High School information
+o	On the pop up their will be an Education section where user shall be able to enter their education information. Information include 
+1. School/ College/ University Name
+2. Time period [From – To (Facebook format)]
+3. Checkbox for Graduated
+4. Description [Limit 1000 characters]
+5. Course
+6. Attended for checkbox (circle box)
+ - High School
+- College
+- University
+Note: There shall be an option like add education by clicking that user will be able to add two more field to insert two more educational information.
+
+	Current town/city
+-	User input should be validated from the saved city list on backend 
+	Hometown
+-	User input should be validated from the saved city list on backend 
+
+	Blood Donation History 
+-	Follow LinkedIn work history chain
+-	User should be able to insert hospital name where they have given blood [system should suggest hospital name as user start typing hospital name – eg: example Ibn Sina Hospital]
+-	User shall input Hospital location [Uttara, Dhaka]
+-	User should be able to insert Date when they have given blood
+-	User should be able to choose from circle shape check box that what they donated. Blood, Platelet or other things [list all]
+-	User shall have option to upload their blood donation picture 
+
+	Testimonial
+-	There will be a testimonial section in that section other user will be able to give testimonials/feedback/comment about this particular user. Character limit 5000 and media file upload is allowed [jpeg, PNG, MP4] file size limit 500 MB before publishing other users testimonial about this particular user the review giver must have rate this donor out of 5 star
+-	An user won’t be able to delete testimonials/feedback/comment he/she received from other user. User can only report about the testimonial or comment he/she received from other user.  But a System Administrator and Manager can remove the testimonials/feedback/comment once they have reviewed and investigated the testimonials.
+
+	Social Link
+-	User shall put their social link and when another person click on social links it will redirect that user to the that person social profile. Facebook, Instagram, Twitter, Github LinkedIn and portfolio link are acceptable  
+
+5. With the edit details button there will be another button as “Verify” when user click on it he/she will be redirected to another page which will say the benefit of getting verified what user will receive if he/she get verified and other information. And there will be another button which will say get verified. Once user click that button they will be redirected to share id site to verify their identity. Once share ID approves their identity, they will receive red badge next to their name on the profile 
+
+6. On the User profile there will be an option for Emergency Blood Request and Looking For Donor
+	Emergency Blood Request: When user clicks on emergency blood request a questionnaire will pop up. Questionnaire will contains following data filed to verify whether the emergency blood request is authentic or not:
+1. Hospital info – Hospital Name, Street address, City/Upozilla, Zilla, Zip Code
+2. Patient Info – Patient Name, Your Relationship Patient, patient condition: Patient Health Issue and why blood is needed,  Patient hemoglobin point, Platelet
+3. Required blood type, quantity, 
+4. Duty Doctor's Name and Number
+5. Patients guardian or responsible persons info: Name, Number
+6. When the blood is needed? – Date and Time field 
+7. Filed to upload medical documents like prescription, test report. This field will accept JPEG, PNG and PDF file. This will be a mandatory field.
+- if the blood is needed within three days or less emergency request will launch automatically upon filling up the form properly. If the blood is needed within more than three days period then this request will moved to general request section for admin attention.
+
+Note: 1: All data is required. To launch emergency blood request. user have to fill out all data field in order to launch emergency request
+2. Once the emergency blood request form is submitted Emergency blood request should be listed on all admin dashboard emergency request section for admin attention.
+
+	Looking For Donor
+1. On the user profile there will be an option named “Search for donor” by clicking this option user will be able to do general search for donor.
+2. On the search form there will be a search button like Airbnb style. On this search button there will be a search filter option by Blood Group, District, Donor Type [Eligible/All]
+And Date of blood donation [when the blood seeker needed the blood]  
+3. In response to user search query system shall respond instantly and retrieve search results from the database 
+
+4. Registered User will be able to send messages to another registered user. To monitor their conversation/ limit/ prevent unnecessary communication there will be premade message templates like FAQ’s 
+Before sending to message or to get cell number of a donor blood seeker must provide the following information:
+1. Patient Name
+2. Patient Problem
+3. Why does patient need the blood 
+4. Which Hospital Patient Admitted 
+5. Hospital Location [Street Address, Upazilla, Zilla, Zip Code]
+6. When the blood needed
+7. Blood group
+8. Quantity
+9. Blood seeker relation with the patient
+10. Contact Number 
+After submitting this form by blood seeker he/she will be able to send message or get contact details of blood donor and the summary of this form will be automatically sent to that particular donor by system.
+
+
+User should have a logout option to logout from his/her profile.
+There should be a session  management backend function to prevent unauthorized access. Also user should have a setting option to control privacy, change privacy add 2FA, Mark himself available/not available for blood donation etc.
+
+
+🔧 STRUCTURE OF PRE-MADE MESSAGE SYSTEM
+Each message template should be grouped by intention category (e.g., request, confirmation, follow-up). Each message sent will be tagged in the backend with a message type code, allowing you to automate tracking.
+
+CATEGORIES & MESSAGE TEMPLATES
+1. Initial Blood Request
+Message Code: REQ_INIT
+•	Templates:
+o	"Dear donor, this is a request for [Blood Group] blood at [Location] on [Date] at [time] [AM/PM]. Please respond if you’re available."
+- Note: We have to structure the message template in such a way that the blood seeker will insert blood group, location, date and time and donor [message receiver] will received the message in above mentioned format. Same goes for all all respective templates.
+
+2. Donor Response – Available
+•	🧾 Message Code: DON_AVAIL
+•	Templates:
+o	"Yes, I am available to donate at [Time] on [Date]."
+
+3. Donor Response – Unavailable
+•	🧾 Message Code: DON_UNAVAIL
+•	Templates:
+o	"Sorry, I’m unable to donate at this time."
+o	"I’ve recently donated blood and can’t donate right now." – If donor response is this then system shall sent him/her a notification to update his donation history if it’s not updated already
+o	"Apologies, I’m not in town right now."
+
+4. Blood Seeker Confirmation
+•	🧾 Message Code: SEEK_CONF
+•	Templates:
+o	"Thanks! Please reach [Hospital Name] by [Time, Date]."
+
+5. Follow-Up Before Appointment
+•	🧾 Message Code: FOLLOW_UP
+•	Templates:
+o	"Are we still on for the donation today?"
+6. Donor No-show Report
+•	🧾 Message Code: DON_NO_SHOW
+•	Templates:
+o	"Donor didn’t show up at the promised time."
+o	"Donor promised to donate but didn’t arrive."
+o	"Unfortunately, the donor didn’t respond or come."
+o	Others – in this field will allow blood seeker to insert manual notes. Character Limit 2000
+
+7. Successful Donation Confirmation
+•	🧾 Message Code: DON_SUCCESS
+•	Templates:
+o	"Blood was donated as planned. "
+-	After submitting above responses, system shall pop up testimonial dialog box. Where blood seeker can share feedback about the donor Alternatively the blood seeker can write review by going to the designated section of donors profile.
+
+8. Cancel Request
+•	🧾 Message Code: REQ_CANCEL
+•	Templates:
+o	"No longer need a donor, thank you."
+o	"Situation resolved. No blood needed anymore."
+o	"Request cancelled. Found donor from another source."

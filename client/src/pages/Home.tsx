@@ -1,7 +1,29 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link } from 'wouter';
 import { Button } from '@/components/ui/button';
 import { UserPlus, Search, Heart, Users, Award, MapPin, Clock } from 'lucide-react';
+
+// Animated Counter Component
+function AnimatedCounter({ end, duration = 2000, suffix = "" }: { end: number; duration?: number; suffix?: string }) {
+  const [count, setCount] = useState(0);
+
+  useEffect(() => {
+    const startTime = Date.now();
+    const timer = setInterval(() => {
+      const elapsed = Date.now() - startTime;
+      const progress = Math.min(elapsed / duration, 1);
+      setCount(Math.floor(progress * end));
+      
+      if (progress >= 1) {
+        clearInterval(timer);
+      }
+    }, 16);
+
+    return () => clearInterval(timer);
+  }, [end, duration]);
+
+  return <span>{count.toLocaleString()}{suffix}</span>;
+}
 
 export default function Home() {
   return (
@@ -67,7 +89,7 @@ export default function Home() {
       <div className="py-16 bg-gray-50">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-12">
-            <h2 className="text-3xl font-bold text-gray-900 mb-4">How BDMS Works</h2>
+            <h2 className="text-3xl font-bold text-gray-900 mb-4">How PulseCare Works</h2>
             <p className="text-lg text-gray-600">Simple steps to save lives</p>
           </div>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
@@ -106,7 +128,7 @@ export default function Home() {
       <div className="py-16 bg-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-12">
-            <h2 className="text-3xl font-bold text-gray-900 mb-4">Why Choose BDMS?</h2>
+            <h2 className="text-3xl font-bold text-gray-900 mb-4">Why Choose PulseCare?</h2>
             <p className="text-lg text-gray-600">Your trusted partner in blood donation</p>
           </div>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
