@@ -66,15 +66,21 @@ export default function Home() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
             <div className="text-center">
-              <div className="text-4xl font-bold text-primary mb-2">25,000+</div>
+              <div className="text-4xl font-bold text-primary mb-2">
+                <AnimatedCounter end={25000} />+
+              </div>
               <div className="text-gray-600">Registered Donors</div>
             </div>
             <div className="text-center">
-              <div className="text-4xl font-bold text-primary mb-2">8,500+</div>
+              <div className="text-4xl font-bold text-primary mb-2">
+                <AnimatedCounter end={8500} />+
+              </div>
               <div className="text-gray-600">Lives Saved</div>
             </div>
             <div className="text-center">
-              <div className="text-4xl font-bold text-primary mb-2">64</div>
+              <div className="text-4xl font-bold text-primary mb-2">
+                <AnimatedCounter end={64} />
+              </div>
               <div className="text-gray-600">Districts Covered</div>
             </div>
             <div className="text-center">
@@ -132,33 +138,33 @@ export default function Home() {
             <p className="text-lg text-gray-600">Your trusted partner in blood donation</p>
           </div>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
-            <div className="text-center">
+            <div className="text-center p-6">
               <div className="w-12 h-12 bg-blue-100 rounded-full flex items-center justify-center mx-auto mb-4">
                 <Users className="w-6 h-6 text-blue-600" />
               </div>
               <h3 className="font-semibold mb-2">Verified Donors</h3>
-              <p className="text-sm text-gray-600">All donors undergo thorough verification process</p>
+              <p className="text-sm text-gray-600 pb-4">All donors undergo thorough verification process</p>
             </div>
-            <div className="text-center">
+            <div className="text-center p-6">
               <div className="w-12 h-12 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4">
                 <Clock className="w-6 h-6 text-green-600" />
               </div>
               <h3 className="font-semibold mb-2">Quick Response</h3>
-              <p className="text-sm text-gray-600">Emergency requests get immediate attention</p>
+              <p className="text-sm text-gray-600 pb-4">Emergency requests get immediate attention</p>
             </div>
-            <div className="text-center">
+            <div className="text-center p-6">
               <div className="w-12 h-12 bg-yellow-100 rounded-full flex items-center justify-center mx-auto mb-4">
                 <MapPin className="w-6 h-6 text-yellow-600" />
               </div>
               <h3 className="font-semibold mb-2">Nationwide</h3>
-              <p className="text-sm text-gray-600">Coverage across all 64 districts of Bangladesh</p>
+              <p className="text-sm text-gray-600 pb-4">Coverage across all 64 districts of Bangladesh</p>
             </div>
-            <div className="text-center">
+            <div className="text-center p-6">
               <div className="w-12 h-12 bg-purple-100 rounded-full flex items-center justify-center mx-auto mb-4">
                 <Award className="w-6 h-6 text-purple-600" />
               </div>
               <h3 className="font-semibold mb-2">Trusted Platform</h3>
-              <p className="text-sm text-gray-600">Thousands of successful blood donations</p>
+              <p className="text-sm text-gray-600 pb-4">Thousands of successful blood donations</p>
             </div>
           </div>
         </div>
