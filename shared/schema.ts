@@ -1,4 +1,5 @@
 import { pgTable, text, serial, integer, boolean, timestamp, jsonb } from "drizzle-orm/pg-core";
+import { relations } from "drizzle-orm";
 import { createInsertSchema } from "drizzle-zod";
 import { z } from "zod";
 
@@ -62,6 +63,26 @@ export const donations = pgTable("donations", {
   testimonial: text("testimonial"),
   createdAt: timestamp("created_at").defaultNow(),
 });
+
+// Relations
+export const usersRelations = relations(users, ({ many }) => ({
+  donations: many(donations),
+  emergencyRequests: many(emergencyRequests),
+}));
+
+export const donationsRelations = relations(donations, ({ one }) => ({
+  donor: one(users, {
+    fields: [donations.donorId],
+    references: [users.id],
+  }),
+}));
+
+export const emergencyRequestsRelations = relations(emergencyRequests, ({ one }) => ({
+  requester: one(users, {
+    fields: [emergencyRequests.requesterId],
+    references: [users.id],
+  }),
+}));
 
 export const insertUserSchema = createInsertSchema(users).omit({
   id: true,

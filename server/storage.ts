@@ -1,4 +1,6 @@
 import { users, emergencyRequests, donations, type User, type InsertUser, type EmergencyRequest, type InsertEmergencyRequest, type Donation, type InsertDonation } from "@shared/schema";
+import { db } from "./db";
+import { eq } from "drizzle-orm";
 import bcrypt from "bcrypt";
 
 export interface IStorage {
@@ -34,159 +36,68 @@ export interface IStorage {
   validatePassword(plainPassword: string, hashedPassword: string): Promise<boolean>;
 }
 
-export class MemStorage implements IStorage {
-  private users: Map<number, User>;
-  private emergencyRequests: Map<number, EmergencyRequest>;
-  private donations: Map<number, Donation>;
-  private currentUserId: number;
-  private currentEmergencyId: number;
-  private currentDonationId: number;
-
-  constructor() {
-    this.users = new Map();
-    this.emergencyRequests = new Map();
-    this.donations = new Map();
-    this.currentUserId = 1;
-    this.currentEmergencyId = 1;
-    this.currentDonationId = 1;
-    
-    // Initialize with sample admin user
-    this.initializeData();
-  }
-
-  private async initializeData() {
-    // Create admin user
-    const adminUser: User = {
-      id: this.currentUserId++,
-      username: "admin",
-      email: "admin@bdms.com",
-      phone: "+8801700000000",
-      password: await bcrypt.hash("admin123", 10),
-      fullName: "Admin User",
-      dateOfBirth: "1990-01-01",
-      bloodGroup: "O+",
-      weight: 70,
-      district: "Dhaka",
-      upazila: "Dhanmondi",
-      address: "Admin Office, Dhaka",
-      lastDonation: null,
-      isVerified: true,
-      isAvailable: true,
-      donationCount: 0,
-      rating: 50,
-      profilePicture: null,
-      coverPhoto: null,
-      bio: "System Administrator",
-      education: "Masters in Computer Science",
-      work: "System Administrator",
-      isAdmin: true,
-      createdAt: new Date(),
-    };
-    this.users.set(adminUser.id, adminUser);
-
-    // Create sample verified donor
-    const sampleDonor: User = {
-      id: this.currentUserId++,
-      username: "sarah.ahmed",
-      email: "sarah.ahmed@email.com",
-      phone: "+8801711111111",
-      password: await bcrypt.hash("password123", 10),
-      fullName: "Dr. Sarah Ahmed",
-      dateOfBirth: "1992-05-15",
-      bloodGroup: "O+",
-      weight: 55,
-      district: "Dhaka",
-      upazila: "Dhanmondi",
-      address: "House 15, Road 7, Dhanmondi, Dhaka",
-      lastDonation: "2024-01-15",
-      isVerified: true,
-      isAvailable: true,
-      donationCount: 15,
-      rating: 49,
-      profilePicture: null,
-      coverPhoto: null,
-      bio: "Medical professional dedicated to saving lives through blood donation",
-      education: "MBBS, Dhaka Medical College",
-      work: "Doctor at Square Hospital",
-      isAdmin: false,
-      createdAt: new Date(),
-    };
-    this.users.set(sampleDonor.id, sampleDonor);
-
-    // Add sample donations for the donor
-    const sampleDonation: Donation = {
-      id: this.currentDonationId++,
-      donorId: sampleDonor.id,
-      recipientName: "Patient Rahman",
-      hospitalName: "Dhaka Medical College",
-      donationDate: "2024-03-15",
-      bloodGroup: "O+",
-      unitsGiven: 1,
-      status: "completed",
-      notes: "Emergency donation for accident victim",
-      rating: 5,
-      testimonial: "Dr. Sarah was incredibly responsive during our emergency. Her quick action helped save my father's life. Forever grateful!",
-      createdAt: new Date(),
-    };
-    this.donations.set(sampleDonation.id, sampleDonation);
-  }
-
+export class DatabaseStorage implements IStorage {
   async getUser(id: number): Promise<User | undefined> {
-    return this.users.get(id);
+    const [user] = await db.select().from(users).where(eq(users.id, id));
+    return user || undefined;
   }
 
   async getUserByUsername(username: string): Promise<User | undefined> {
-    return Array.from(this.users.values()).find(user => user.username === username);
+    const [user] = await db.select().from(users).where(eq(users.username, username));
+    return user || undefined;
   }
 
   async getUserByEmail(email: string): Promise<User | undefined> {
-    return Array.from(this.users.values()).find(user => user.email === email);
+    const [user] = await db.select().from(users).where(eq(users.email, email));
+    return user || undefined;
   }
 
   async getUserByPhone(phone: string): Promise<User | undefined> {
-    return Array.from(this.users.values()).find(user => user.phone === phone);
+    const [user] = await db.select().from(users).where(eq(users.phone, phone));
+    return user || undefined;
   }
 
   async getUserByIdentifier(identifier: string): Promise<User | undefined> {
-    return Array.from(this.users.values()).find(user => 
+    const userList = await db.select().from(users);
+    return userList.find(user => 
       user.username === identifier || user.email === identifier || user.phone === identifier
     );
   }
 
   async createUser(insertUser: InsertUser): Promise<User> {
     const hashedPassword = await bcrypt.hash(insertUser.password, 10);
-    const id = this.currentUserId++;
-    const user: User = {
-      ...insertUser,
-      id,
-      password: hashedPassword,
-      isVerified: false,
-      isAvailable: true,
-      donationCount: 0,
-      rating: 50,
-      profilePicture: null,
-      coverPhoto: null,
-      bio: null,
-      education: null,
-      work: null,
-      isAdmin: false,
-      createdAt: new Date(),
-    };
-    this.users.set(id, user);
+    const [user] = await db
+      .insert(users)
+      .values({
+        ...insertUser,
+        password: hashedPassword,
+        lastDonation: insertUser.lastDonation || null,
+        isVerified: false,
+        isAvailable: true,
+        donationCount: 0,
+        rating: 50,
+        profilePicture: null,
+        coverPhoto: null,
+        bio: null,
+        education: null,
+        work: null,
+        isAdmin: false,
+      })
+      .returning();
     return user;
   }
 
   async updateUser(id: number, updates: Partial<User>): Promise<User | undefined> {
-    const user = this.users.get(id);
-    if (!user) return undefined;
-    
-    const updatedUser = { ...user, ...updates };
-    this.users.set(id, updatedUser);
-    return updatedUser;
+    const [updatedUser] = await db
+      .update(users)
+      .set(updates)
+      .where(eq(users.id, id))
+      .returning();
+    return updatedUser || undefined;
   }
 
   async getAllUsers(): Promise<User[]> {
-    return Array.from(this.users.values());
+    return db.select().from(users);
   }
 
   async searchDonors(filters: {
@@ -196,92 +107,100 @@ export class MemStorage implements IStorage {
     limit?: number;
     offset?: number;
   }): Promise<User[]> {
-    let donors = Array.from(this.users.values()).filter(user => !user.isAdmin);
+    let query = db.select().from(users).where(eq(users.isAdmin, false));
+    
+    // Apply filters - would need to build dynamic where clauses for a real implementation
+    const allUsers = await query;
+    let filteredUsers = allUsers;
     
     if (filters.bloodGroup) {
-      donors = donors.filter(donor => donor.bloodGroup === filters.bloodGroup);
+      filteredUsers = filteredUsers.filter(user => user.bloodGroup === filters.bloodGroup);
     }
     
     if (filters.district) {
-      donors = donors.filter(donor => donor.district === filters.district);
+      filteredUsers = filteredUsers.filter(user => user.district === filters.district);
     }
     
     if (filters.isAvailable !== undefined) {
-      donors = donors.filter(donor => donor.isAvailable === filters.isAvailable);
+      filteredUsers = filteredUsers.filter(user => user.isAvailable === filters.isAvailable);
     }
     
     // Sort by rating and donation count
-    donors.sort((a, b) => {
-      if (b.rating !== a.rating) return b.rating - a.rating;
-      return b.donationCount - a.donationCount;
+    filteredUsers.sort((a, b) => {
+      const aRating = a.rating || 0;
+      const bRating = b.rating || 0;
+      const aDonations = a.donationCount || 0;
+      const bDonations = b.donationCount || 0;
+      
+      if (bRating !== aRating) return bRating - aRating;
+      return bDonations - aDonations;
     });
     
     const offset = filters.offset || 0;
     const limit = filters.limit || 50;
     
-    return donors.slice(offset, offset + limit);
+    return filteredUsers.slice(offset, offset + limit);
   }
 
   async createEmergencyRequest(request: InsertEmergencyRequest): Promise<EmergencyRequest> {
-    const id = this.currentEmergencyId++;
-    const emergencyRequest: EmergencyRequest = {
-      ...request,
-      id,
-      status: "pending",
-      createdAt: new Date(),
-    };
-    this.emergencyRequests.set(id, emergencyRequest);
+    const [emergencyRequest] = await db
+      .insert(emergencyRequests)
+      .values({
+        ...request,
+        requesterId: null, // Will need to be set when user auth is implemented
+        status: "pending",
+      })
+      .returning();
     return emergencyRequest;
   }
 
   async getEmergencyRequests(): Promise<EmergencyRequest[]> {
-    return Array.from(this.emergencyRequests.values()).sort((a, b) => 
-      new Date(b.createdAt!).getTime() - new Date(a.createdAt!).getTime()
-    );
+    return db.select().from(emergencyRequests);
   }
 
   async getEmergencyRequestById(id: number): Promise<EmergencyRequest | undefined> {
-    return this.emergencyRequests.get(id);
+    const [request] = await db.select().from(emergencyRequests).where(eq(emergencyRequests.id, id));
+    return request || undefined;
   }
 
   async updateEmergencyRequestStatus(id: number, status: string): Promise<EmergencyRequest | undefined> {
-    const request = this.emergencyRequests.get(id);
-    if (!request) return undefined;
-    
-    const updatedRequest = { ...request, status };
-    this.emergencyRequests.set(id, updatedRequest);
-    return updatedRequest;
+    const [updatedRequest] = await db
+      .update(emergencyRequests)
+      .set({ status })
+      .where(eq(emergencyRequests.id, id))
+      .returning();
+    return updatedRequest || undefined;
   }
 
   async createDonation(donation: InsertDonation): Promise<Donation> {
-    const id = this.currentDonationId++;
-    const newDonation: Donation = {
-      ...donation,
-      id,
-      createdAt: new Date(),
-    };
-    this.donations.set(id, newDonation);
+    const [newDonation] = await db
+      .insert(donations)
+      .values({
+        ...donation,
+        status: donation.status || "completed",
+        rating: donation.rating || null,
+        notes: donation.notes || null,
+        testimonial: donation.testimonial || null,
+      })
+      .returning();
     
     // Update donor's donation count
-    const donor = this.users.get(donation.donorId);
+    const donor = await this.getUser(donation.donorId);
     if (donor) {
-      const updatedDonor = { ...donor, donationCount: donor.donationCount + 1 };
-      this.users.set(donor.id, updatedDonor);
+      await this.updateUser(donor.id, { 
+        donationCount: (donor.donationCount || 0) + 1 
+      });
     }
     
     return newDonation;
   }
 
   async getDonationsByDonor(donorId: number): Promise<Donation[]> {
-    return Array.from(this.donations.values())
-      .filter(donation => donation.donorId === donorId)
-      .sort((a, b) => new Date(b.createdAt!).getTime() - new Date(a.createdAt!).getTime());
+    return db.select().from(donations).where(eq(donations.donorId, donorId));
   }
 
   async getAllDonations(): Promise<Donation[]> {
-    return Array.from(this.donations.values()).sort((a, b) => 
-      new Date(b.createdAt!).getTime() - new Date(a.createdAt!).getTime()
-    );
+    return db.select().from(donations);
   }
 
   async validatePassword(plainPassword: string, hashedPassword: string): Promise<boolean> {
@@ -289,4 +208,4 @@ export class MemStorage implements IStorage {
   }
 }
 
-export const storage = new MemStorage();
+export const storage = new DatabaseStorage();
