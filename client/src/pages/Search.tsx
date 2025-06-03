@@ -56,7 +56,9 @@ export default function Search() {
   const totalDonors = 247; // This would come from the API in a real implementation
 
   const handleFilterChange = (key: string, value: string) => {
-    setFilters(prev => ({ ...prev, [key]: value }));
+    // Convert "all" values to empty strings for API compatibility
+    const apiValue = value === 'all' ? '' : value;
+    setFilters(prev => ({ ...prev, [key]: apiValue }));
     setCurrentPage(1); // Reset to first page when filters change
   };
 
@@ -184,7 +186,7 @@ export default function Search() {
                     <SelectValue placeholder="All Blood Groups" />
                   </SelectTrigger>
                   <SelectContent>
-                    <SelectItem value="">All Blood Groups</SelectItem>
+                    <SelectItem value="all">All Blood Groups</SelectItem>
                     {bloodGroups.map((group) => (
                       <SelectItem key={group} value={group}>
                         {group}
@@ -201,7 +203,7 @@ export default function Search() {
                     <SelectValue placeholder="All Districts" />
                   </SelectTrigger>
                   <SelectContent>
-                    <SelectItem value="">All Districts</SelectItem>
+                    <SelectItem value="all">All Districts</SelectItem>
                     {districts.map((district) => (
                       <SelectItem key={district} value={district}>
                         {district}
@@ -218,7 +220,7 @@ export default function Search() {
                     <SelectValue placeholder="All Donors" />
                   </SelectTrigger>
                   <SelectContent>
-                    <SelectItem value="">All Donors</SelectItem>
+                    <SelectItem value="all">All Donors</SelectItem>
                     <SelectItem value="true">Available Now</SelectItem>
                     <SelectItem value="false">Not Available</SelectItem>
                   </SelectContent>
