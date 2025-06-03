@@ -49,8 +49,7 @@ export default function Home() {
               <Link href="/search">
                 <Button 
                   size="lg" 
-                  variant="outline" 
-                  className="border-2 border-white text-white hover:bg-white hover:text-primary font-semibold"
+                  className="bg-red-600 text-white hover:bg-red-700 border-2 border-red-600 hover:border-red-700 font-semibold"
                 >
                   <Search className="w-5 h-5 mr-2" />
                   Find Donors
@@ -62,30 +61,30 @@ export default function Home() {
       </div>
 
       {/* Stats Section */}
-      <div className="py-16 bg-white">
+      <div className="py-16 bg-gradient-to-r from-red-50 to-red-100">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
-            <div className="text-center">
-              <div className="text-4xl font-bold text-primary mb-2">
+            <div className="text-center p-6 bg-white rounded-xl shadow-lg hover:shadow-xl transform hover:-translate-y-2 transition-all duration-300">
+              <div className="text-4xl font-bold text-primary mb-2 bg-gradient-to-r from-red-600 to-red-800 bg-clip-text text-transparent">
                 <AnimatedCounter end={25000} />+
               </div>
-              <div className="text-gray-600">Registered Donors</div>
+              <div className="text-gray-600 font-medium">Registered Donors</div>
             </div>
-            <div className="text-center">
-              <div className="text-4xl font-bold text-primary mb-2">
+            <div className="text-center p-6 bg-white rounded-xl shadow-lg hover:shadow-xl transform hover:-translate-y-2 transition-all duration-300">
+              <div className="text-4xl font-bold text-primary mb-2 bg-gradient-to-r from-red-600 to-red-800 bg-clip-text text-transparent">
                 <AnimatedCounter end={8500} />+
               </div>
-              <div className="text-gray-600">Lives Saved</div>
+              <div className="text-gray-600 font-medium">Lives Saved</div>
             </div>
-            <div className="text-center">
-              <div className="text-4xl font-bold text-primary mb-2">
+            <div className="text-center p-6 bg-white rounded-xl shadow-lg hover:shadow-xl transform hover:-translate-y-2 transition-all duration-300">
+              <div className="text-4xl font-bold text-primary mb-2 bg-gradient-to-r from-red-600 to-red-800 bg-clip-text text-transparent">
                 <AnimatedCounter end={64} />
               </div>
-              <div className="text-gray-600">Districts Covered</div>
+              <div className="text-gray-600 font-medium">Districts Covered</div>
             </div>
-            <div className="text-center">
-              <div className="text-4xl font-bold text-primary mb-2">24/7</div>
-              <div className="text-gray-600">Emergency Support</div>
+            <div className="text-center p-6 bg-white rounded-xl shadow-lg hover:shadow-xl transform hover:-translate-y-2 transition-all duration-300">
+              <div className="text-4xl font-bold text-primary mb-2 bg-gradient-to-r from-red-600 to-red-800 bg-clip-text text-transparent">24/7</div>
+              <div className="text-gray-600 font-medium">Emergency Support</div>
             </div>
           </div>
         </div>
@@ -99,30 +98,30 @@ export default function Home() {
             <p className="text-lg text-gray-600">Simple steps to save lives</p>
           </div>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            <div className="bg-white p-8 rounded-xl shadow-sm text-center">
-              <div className="w-16 h-16 bg-primary rounded-full flex items-center justify-center mx-auto mb-4">
+            <div className="bg-white p-8 rounded-xl shadow-lg text-center transform hover:-translate-y-3 hover:shadow-2xl transition-all duration-500 group">
+              <div className="w-16 h-16 bg-gradient-to-r from-red-500 to-red-700 rounded-full flex items-center justify-center mx-auto mb-4 group-hover:scale-110 transition-transform duration-300">
                 <UserPlus className="w-8 h-8 text-white" />
               </div>
-              <h3 className="text-xl font-semibold mb-4">Register</h3>
-              <p className="text-gray-600">
+              <h3 className="text-xl font-semibold mb-4 group-hover:text-red-600 transition-colors duration-300">Register</h3>
+              <p className="text-gray-600 group-hover:text-gray-800 transition-colors duration-300">
                 Create your profile with medical information and availability
               </p>
             </div>
-            <div className="bg-white p-8 rounded-xl shadow-sm text-center">
-              <div className="w-16 h-16 bg-secondary rounded-full flex items-center justify-center mx-auto mb-4">
+            <div className="bg-white p-8 rounded-xl shadow-lg text-center transform hover:-translate-y-3 hover:shadow-2xl transition-all duration-500 group">
+              <div className="w-16 h-16 bg-gradient-to-r from-blue-500 to-blue-700 rounded-full flex items-center justify-center mx-auto mb-4 group-hover:scale-110 transition-transform duration-300">
                 <Search className="w-8 h-8 text-white" />
               </div>
-              <h3 className="text-xl font-semibold mb-4">Match</h3>
-              <p className="text-gray-600">
+              <h3 className="text-xl font-semibold mb-4 group-hover:text-blue-600 transition-colors duration-300">Match</h3>
+              <p className="text-gray-600 group-hover:text-gray-800 transition-colors duration-300">
                 Our system finds compatible donors based on location and blood type
               </p>
             </div>
-            <div className="bg-white p-8 rounded-xl shadow-sm text-center">
-              <div className="w-16 h-16 bg-success rounded-full flex items-center justify-center mx-auto mb-4">
+            <div className="bg-white p-8 rounded-xl shadow-lg text-center transform hover:-translate-y-3 hover:shadow-2xl transition-all duration-500 group">
+              <div className="w-16 h-16 bg-gradient-to-r from-green-500 to-green-700 rounded-full flex items-center justify-center mx-auto mb-4 group-hover:scale-110 transition-transform duration-300">
                 <Heart className="w-8 h-8 text-white" />
               </div>
-              <h3 className="text-xl font-semibold mb-4">Donate</h3>
-              <p className="text-gray-600">
+              <h3 className="text-xl font-semibold mb-4 group-hover:text-green-600 transition-colors duration-300">Donate</h3>
+              <p className="text-gray-600 group-hover:text-gray-800 transition-colors duration-300">
                 Connect with recipients and donate blood to save lives
               </p>
             </div>
@@ -138,33 +137,33 @@ export default function Home() {
             <p className="text-lg text-gray-600">Your trusted partner in blood donation</p>
           </div>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
-            <div className="text-center p-6">
-              <div className="w-12 h-12 bg-blue-100 rounded-full flex items-center justify-center mx-auto mb-4">
-                <Users className="w-6 h-6 text-blue-600" />
+            <div className="text-center p-8 bg-white rounded-xl shadow-lg hover:shadow-2xl transform hover:-translate-y-2 transition-all duration-500 group">
+              <div className="w-16 h-16 bg-gradient-to-r from-blue-500 to-blue-600 rounded-full flex items-center justify-center mx-auto mb-6 group-hover:scale-110 transition-transform duration-300">
+                <Users className="w-8 h-8 text-white" />
               </div>
-              <h3 className="font-semibold mb-2">Verified Donors</h3>
-              <p className="text-sm text-gray-600 pb-4">All donors undergo thorough verification process</p>
+              <h3 className="font-bold text-lg mb-3 group-hover:text-blue-600 transition-colors duration-300">Verified Donors</h3>
+              <p className="text-gray-600 group-hover:text-gray-800 transition-colors duration-300 pb-4">All donors undergo thorough verification process</p>
             </div>
-            <div className="text-center p-6">
-              <div className="w-12 h-12 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4">
-                <Clock className="w-6 h-6 text-green-600" />
+            <div className="text-center p-8 bg-white rounded-xl shadow-lg hover:shadow-2xl transform hover:-translate-y-2 transition-all duration-500 group">
+              <div className="w-16 h-16 bg-gradient-to-r from-green-500 to-green-600 rounded-full flex items-center justify-center mx-auto mb-6 group-hover:scale-110 transition-transform duration-300">
+                <Clock className="w-8 h-8 text-white" />
               </div>
-              <h3 className="font-semibold mb-2">Quick Response</h3>
-              <p className="text-sm text-gray-600 pb-4">Emergency requests get immediate attention</p>
+              <h3 className="font-bold text-lg mb-3 group-hover:text-green-600 transition-colors duration-300">Quick Response</h3>
+              <p className="text-gray-600 group-hover:text-gray-800 transition-colors duration-300 pb-4">Emergency requests get immediate attention</p>
             </div>
-            <div className="text-center p-6">
-              <div className="w-12 h-12 bg-yellow-100 rounded-full flex items-center justify-center mx-auto mb-4">
-                <MapPin className="w-6 h-6 text-yellow-600" />
+            <div className="text-center p-8 bg-white rounded-xl shadow-lg hover:shadow-2xl transform hover:-translate-y-2 transition-all duration-500 group">
+              <div className="w-16 h-16 bg-gradient-to-r from-yellow-500 to-yellow-600 rounded-full flex items-center justify-center mx-auto mb-6 group-hover:scale-110 transition-transform duration-300">
+                <MapPin className="w-8 h-8 text-white" />
               </div>
-              <h3 className="font-semibold mb-2">Nationwide</h3>
-              <p className="text-sm text-gray-600 pb-4">Coverage across all 64 districts of Bangladesh</p>
+              <h3 className="font-bold text-lg mb-3 group-hover:text-yellow-600 transition-colors duration-300">Nationwide</h3>
+              <p className="text-gray-600 group-hover:text-gray-800 transition-colors duration-300 pb-4">Coverage across all 64 districts of Bangladesh</p>
             </div>
-            <div className="text-center p-6">
-              <div className="w-12 h-12 bg-purple-100 rounded-full flex items-center justify-center mx-auto mb-4">
-                <Award className="w-6 h-6 text-purple-600" />
+            <div className="text-center p-8 bg-white rounded-xl shadow-lg hover:shadow-2xl transform hover:-translate-y-2 transition-all duration-500 group">
+              <div className="w-16 h-16 bg-gradient-to-r from-purple-500 to-purple-600 rounded-full flex items-center justify-center mx-auto mb-6 group-hover:scale-110 transition-transform duration-300">
+                <Award className="w-8 h-8 text-white" />
               </div>
-              <h3 className="font-semibold mb-2">Trusted Platform</h3>
-              <p className="text-sm text-gray-600 pb-4">Thousands of successful blood donations</p>
+              <h3 className="font-bold text-lg mb-3 group-hover:text-purple-600 transition-colors duration-300">Trusted Platform</h3>
+              <p className="text-gray-600 group-hover:text-gray-800 transition-colors duration-300 pb-4">Thousands of successful blood donations</p>
             </div>
           </div>
         </div>
@@ -187,8 +186,7 @@ export default function Home() {
             <Link href="/search">
               <Button 
                 size="lg" 
-                variant="outline" 
-                className="border-2 border-white text-white hover:bg-white hover:text-primary font-semibold"
+                className="bg-red-600 text-white hover:bg-red-700 border-2 border-red-600 hover:border-red-700 font-semibold"
               >
                 <Search className="w-5 h-5 mr-2" />
                 Find Blood Now
