@@ -41,13 +41,33 @@ export default function Dashboard() {
   const queryClient = useQueryClient();
   
   const [isEditModalOpen, setIsEditModalOpen] = useState(false);
+  interface WorkEntry {
+    company: string;
+    position: string;
+    city: string;
+    description: string;
+    fromDate: string;
+    toDate: string;
+    currentlyWorking: boolean;
+  }
+
+  interface EducationEntry {
+    institution: string;
+    course: string;
+    description: string;
+    fromDate: string;
+    toDate: string;
+    graduated: boolean;
+    type: string;
+  }
+
   const [profileData, setProfileData] = useState({
     bio: user?.bio || '',
     currentCity: user?.currentCity || '',
     hometown: user?.hometown || '',
-    work: user?.work || [],
-    education: user?.education || [],
-    socialLinks: user?.socialLinks || {}
+    work: [] as WorkEntry[],
+    education: [] as EducationEntry[],
+    socialLinks: {} as Record<string, string>
   });
 
   const { data: donations = [] } = useQuery({
@@ -191,6 +211,8 @@ export default function Dashboard() {
                 <Button 
                   size="sm"
                   className="absolute bottom-2 right-2 w-8 h-8 rounded-full p-0 bg-primary hover:bg-red-700"
+                  onClick={() => handleFileUpload('profile')}
+                  disabled={uploadPhotoMutation.isPending}
                 >
                   <Camera className="w-4 h-4" />
                 </Button>
