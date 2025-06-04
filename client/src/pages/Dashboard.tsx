@@ -1,12 +1,19 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useAuth } from '@/context/AuthContext';
-import { useQuery } from '@tanstack/react-query';
+import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Progress } from '@/components/ui/progress';
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
+import { Input } from '@/components/ui/input';
+import { Textarea } from '@/components/ui/textarea';
+import { Label } from '@/components/ui/label';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { DonationTrendChart } from '@/components/Charts';
+import { useToast } from '@/hooks/use-toast';
 import { 
   Heart, 
   Users, 
@@ -18,16 +25,78 @@ import {
   UserPen,
   Bell,
   Shield,
-  Download
+  Download,
+  Plus,
+  MapPin,
+  Building,
+  GraduationCap,
+  Award,
+  ExternalLink
 } from 'lucide-react';
 import { formatRating, isEligibleToDonate, calculateDaysSinceLastDonation } from '@/lib/utils';
 
 export default function Dashboard() {
   const { user } = useAuth();
+  const { toast } = useToast();
+  const queryClient = useQueryClient();
+  
+  const [isEditModalOpen, setIsEditModalOpen] = useState(false);
+  const [profileData, setProfileData] = useState({
+    bio: user?.bio || '',
+    currentCity: user?.currentCity || '',
+    hometown: user?.hometown || '',
+    work: user?.work || [],
+    education: user?.education || [],
+    socialLinks: user?.socialLinks || {}
+  });
 
   const { data: donations = [] } = useQuery({
     queryKey: [`/api/users/${user?.id}/donations`],
     enabled: !!user?.id,
+  });
+
+  const updateProfileMutation = useMutation({
+    mutationFn: async (data: any) => {
+      const response = await fetch(`/api/users/${user?.id}`, {
+        method: 'PATCH',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(data),
+      });
+      if (!response.ok) throw new Error('Failed to update profile');
+      return response.json();
+    },
+    onSuccess: () => {
+      toast({ title: "Profile updated successfully" });
+      queryClient.invalidateQueries({ queryKey: ['/api/auth/me'] });
+      setIsEditModalOpen(false);
+    },
+    onError: () => {
+      toast({ title: "Failed to update profile", variant: "destructive" });
+    }
+  });
+
+  const uploadPhotoMutation = useMutation({
+    mutationFn: async ({ file, type }: { file: File, type: 'profile' | 'cover' }) => {
+      const formData = new FormData();
+      formData.append('photo', file);
+      formData.append('type', type);
+      
+      const response = await fetch(`/api/users/${user?.id}/upload-photo`, {
+        method: 'POST',
+        body: formData,
+      });
+      if (!response.ok) throw new Error('Failed to upload photo');
+      return response.json();
+    },
+    onSuccess: (data, variables) => {
+      toast({ 
+        title: `${variables.type === 'profile' ? 'Profile' : 'Cover'} photo updated successfully` 
+      });
+      queryClient.invalidateQueries({ queryKey: ['/api/auth/me'] });
+    },
+    onError: () => {
+      toast({ title: "Failed to upload photo", variant: "destructive" });
+    }
   });
 
   if (!user) {
@@ -42,15 +111,48 @@ export default function Dashboard() {
   const nextEligibleDays = Math.max(0, 120 - daysSinceLastDonation);
   const isEligible = isEligibleToDonate(user.lastDonation);
 
-  // Mock donation trend data
-  const donationTrendData = [
-    { month: 'Jan', donations: 2 },
-    { month: 'Feb', donations: 3 },
-    { month: 'Mar', donations: 1 },
-    { month: 'Apr', donations: 4 },
-    { month: 'May', donations: 2 },
-    { month: 'Jun', donations: 3 },
-  ];
+  const handleFileUpload = (type: 'profile' | 'cover') => {
+    const input = document.createElement('input');
+    input.type = 'file';
+    input.accept = 'image/*';
+    input.onchange = (e) => {
+      const file = (e.target as HTMLInputElement).files?.[0];
+      if (file) {
+        uploadPhotoMutation.mutate({ file, type });
+      }
+    };
+    input.click();
+  };
+
+  const addWorkEntry = () => {
+    setProfileData(prev => ({
+      ...prev,
+      work: [...prev.work, {
+        company: '',
+        position: '',
+        city: '',
+        description: '',
+        fromDate: '',
+        toDate: '',
+        currentlyWorking: false
+      }]
+    }));
+  };
+
+  const addEducationEntry = () => {
+    setProfileData(prev => ({
+      ...prev,
+      education: [...prev.education, {
+        institution: '',
+        course: '',
+        description: '',
+        fromDate: '',
+        toDate: '',
+        graduated: false,
+        type: 'university'
+      }]
+    }));
+  };
 
   return (
     <div className="min-h-screen bg-gray-50 py-8">
@@ -58,14 +160,21 @@ export default function Dashboard() {
         {/* Profile Header */}
         <Card className="overflow-hidden mb-8">
           {/* Cover Photo */}
-          <div className="h-48 bg-gradient-to-r from-primary to-red-700 relative">
+          <div 
+            className="h-48 bg-gradient-to-r from-primary to-red-700 relative bg-cover bg-center"
+            style={{
+              backgroundImage: user.coverPhoto ? `url(${user.coverPhoto})` : undefined
+            }}
+          >
             <Button 
               variant="secondary" 
               size="sm"
               className="absolute top-4 right-4 bg-black bg-opacity-50 text-white hover:bg-opacity-70"
+              onClick={() => handleFileUpload('cover')}
+              disabled={uploadPhotoMutation.isPending}
             >
               <Camera className="w-4 h-4 mr-2" />
-              Change Cover
+              {uploadPhotoMutation.isPending ? 'Uploading...' : 'Change Cover'}
             </Button>
           </div>
           

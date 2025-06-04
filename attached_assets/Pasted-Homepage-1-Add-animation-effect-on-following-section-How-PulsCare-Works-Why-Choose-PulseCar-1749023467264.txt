@@ -1,0 +1,141 @@
+Homepage
+1. Add animation effect on following section,
+- How PulsCare Works
+- Why Choose PulseCare? Section
+- Ready to Save Lives?
+
+Find Donors
+1. Emergency Blood Request button On the Find donors page 
+
+- When user typing the hospital name system should suggest name as they typing. Suggestions should be from google. And suggestions should be matched with the typing characters. So that user can choose from the suggestions and they will not have to type full name of the hospital this will allow us to have the correct info
+
+- Same goes for the hospital address. System should suggest the name from google map and user can choose the address from the suggestions
+
+2. Upload Documents
+Upload documents option is not working. Make it functional so that user can upload documents.
+
+3. The form shouldn't be submitted if user doesn't fill the required field but now blank form being submitted successfully!
+
+4. And on the emergency blood request form Age entry shouldn't be exceed 120 Years
+
+5. Every Emergency Blood Request should be listed realtime  on Admin Dashboard For details see the attached files.
+
+6. On the search filter 
+- Without using filter it shows : "Found 247 donors matching your criteria" also 
+regdless of the filer it showinf same filter result: Found 247 donors matching your criteria"
+Fix this issue.
+
+-  On the find donor page there is few donor profile as required but the donors loaction is wrong for an exaple Uddin Rahman's location os Chittagong, Mohammadpur but Mohammadpur is in the Dhaka. and on the donor profile you have inserted last name first but i want it like First Name First then Last Name. and change the text colour of verified button on donor profile red to white and button fill colour blue to red.
+
+Messaging:
+A user should be able to message another user but system is missing this feature. 
+The system is missing messaging feature. Implement messaging feature based on the attachement
+
+User Dashboard
+- User Should be Able to upload and change their profile and cover photo but this function is not working.
+
+- Setting Function is not wroking
+- A user should be able to rate and give testimonial to other user this function is not working.
+
+- User profile should include following: 
+
+Requirement 1.4: User Profile Features
+The user profile shall contain the following core functionalities:
+1.4.1 Profile Photo & Cover Photo Management
+•	Profile Photo:
+o	Upload size: 180x180px (desktop), 128x128px (mobile).
+o	Displayed on the left side of the profile to avoid covering the cover image.
+•	Cover Photo:
+o	Display size: 820x312px (desktop), 640x360px (mobile).
+o	The image will stretch to fit the full cover area.
+
+•	Functional Requirements:
+o	Users can add, update, or remove both profile and cover photos at any time.
+o	Only one photo per type (profile and cover) is allowed.
+o	Both images are visible to other users and System Administrators.
+________________________________________
+1.4.2 Bio Section
+•	A text area shall allow the user to write a short bio.
+•	Character limit: 250 characters.
+•	Positioned below the profile picture.
+________________________________________
+1.4.3 Modular Info Sections (Display + Edit)
+Modular layout sections shall include the following:
+•	Work History
+•	Education
+•	Testimonials
+•	Blood Donation History
+•	Social Links
+•	Current City
+•	Hometown
+
+Each section will include:
+•	A display area visible to other users and admins.
+•	An “Edit Details” button that opens a modal popup for real-time data updates. (Design Reference Facebook Profile)
+________________________________________
+Requirement 1.4.4: Edit Modal Functionality
+Work Section
+•	Users may add up to three most recent work histories.
+•	Includes:
+1.	Company
+2.	Position
+3.	City/Town
+4.	Description (Max 1000 characters)
+5.	Time Period (From - To) with checkbox: "I currently work here"
+•	“Add Workspace” button to add new work entries.
+
+Education Section
+•	Allows entry of University/College and High School details.
+•	Fields include:
+1.	School/College/University Name
+2.	Time Period (From – To)
+3.	Graduated checkbox
+4.	Course
+5.	Description (Max 1000 characters)
+6.	Type of Institution (High School / College / University via checkbox)
+•	“Add Education” button to add up to two more educational entries.
+
+Location Fields
+•	Current Town/City and Hometown must be validated against the backends’ saved city list.
+
+Blood Donation History (LinkedIn-style chain)
+•	Entry fields:
+1.	Hospital Name (autocomplete suggestion from database, e.g., Ibn Sina Hospital)
+2.	Hospital Location (e.g., Uttara, Dhaka)
+3.	Date of Donation
+4.	Type of Donation (Blood / Platelet / Others via circle checkbox)
+5.	Upload Donation Picture (optional)
+
+Testimonial Section
+•	Other users may submit testimonials with:
+o	Character limit: 5000
+o	Media support: JPEG, PNG, MP4 (max size: 500 MB)
+o	Star rating (1–5 stars) required before submission
+•	Users cannot delete received testimonials.
+•	Users can report a testimonial.
+•	System Administrators and Managers can remove reported testimonials after review.
+
+Social Links
+•	Acceptable platforms: Facebook, Instagram, Twitter, GitHub, LinkedIn, Portfolio
+•	Links redirect to external profiles in a new tab.
+________________________________________
+Requirement 1.4.5: Profile Verification Workflow
+•	“Verify” button next to “Edit Details”.
+•	Redirects user to a page explaining benefits of verification.
+•	Clicking “Get Verified” redirects user to the Share ID identity verification portal.
+•	Upon successful verification:
+o	User receives a red badge next to their name.
+
+User should be able to save their donation history on their profile like as linkedIn work history.
+
+
+
+Responsiveness
+1. The system is not mobile and tablet responsive. So make the UI mobile (All smartphone iOS and Android) and tablet responsive
+
+HTTP Traffic
+ open port or do whatever is necessary to make the system available for user through HTTP or URL moreover take necessary step to fix this error: Hmm... We couldn't reach this app Make sure this app has a port open and is ready to receive HTTP traffic.
+
+
+Overall review the attachement throughly take your time and implement missing features and functionality.
+

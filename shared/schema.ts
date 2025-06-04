@@ -26,6 +26,10 @@ export const users = pgTable("users", {
   bio: text("bio"),
   education: text("education"),
   work: text("work"),
+  currentCity: text("current_city"),
+  hometown: text("hometown"),
+  socialLinks: jsonb("social_links").default('{}'),
+  bloodDonationHistory: jsonb("blood_donation_history").default('[]'),
   isAdmin: boolean("is_admin").default(false),
   createdAt: timestamp("created_at").defaultNow(),
 });
