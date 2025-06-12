@@ -13,6 +13,7 @@ import Home from "@/pages/Home";
 import Register from "@/pages/Register";
 import Login from "@/pages/Login";
 import AdminLogin from "@/pages/AdminLogin";
+import AdminPortal from "@/pages/AdminPortal";
 import Dashboard from "@/pages/Dashboard";
 import Search from "@/pages/Search";
 import SimpleProfile from "@/pages/SimpleProfile";
