@@ -117,6 +117,61 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
+  // Profile routes
+  app.get("/api/profile/:id", async (req, res) => {
+    try {
+      const userId = parseInt(req.params.id);
+      const user = await storage.getUser(userId);
+      
+      if (!user) {
+        return res.status(404).json({ message: "User not found" });
+      }
+      
+      // Remove password from response
+      const { password, ...userResponse } = user;
+      
+      res.json({ user: userResponse });
+    } catch (error) {
+      console.error("Get profile error:", error);
+      res.status(500).json({ message: "Internal server error" });
+    }
+  });
+
+  app.patch("/api/profile/:id", async (req, res) => {
+    try {
+      const userId = parseInt(req.params.id);
+      const updates = req.body;
+      
+      // Convert JSON strings back to JSON for storage
+      if (updates.education && typeof updates.education === 'string') {
+        updates.education = updates.education;
+      }
+      if (updates.work && typeof updates.work === 'string') {
+        updates.work = updates.work;
+      }
+      if (updates.socialLinks && typeof updates.socialLinks === 'object') {
+        updates.socialLinks = updates.socialLinks;
+      }
+      if (updates.bloodDonationHistory && Array.isArray(updates.bloodDonationHistory)) {
+        updates.bloodDonationHistory = updates.bloodDonationHistory;
+      }
+      
+      const updatedUser = await storage.updateUser(userId, updates);
+      
+      if (!updatedUser) {
+        return res.status(404).json({ message: "User not found" });
+      }
+      
+      // Remove password from response
+      const { password, ...userResponse } = updatedUser;
+      
+      res.json({ user: userResponse, message: "Profile updated successfully" });
+    } catch (error) {
+      console.error("Update profile error:", error);
+      res.status(500).json({ message: "Internal server error" });
+    }
+  });
+
   // Emergency request routes
   app.post("/api/emergency-requests", async (req, res) => {
     try {

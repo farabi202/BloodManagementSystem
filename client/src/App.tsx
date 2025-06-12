@@ -15,6 +15,7 @@ import Login from "@/pages/Login";
 import AdminLogin from "@/pages/AdminLogin";
 import Dashboard from "@/pages/Dashboard";
 import Search from "@/pages/Search";
+import Profile from "@/pages/Profile";
 import Admin from "@/pages/Admin";
 import NotFound from "@/pages/not-found";
 

@@ -1,8 +1,8 @@
-import { seedDemoData } from './seedData';
+import { quickSeed } from './quickSeed';
 
 async function runSeed() {
   try {
-    await seedDemoData();
+    await quickSeed();
     console.log('✅ Demo data seeding completed successfully!');
     process.exit(0);
   } catch (error) {
