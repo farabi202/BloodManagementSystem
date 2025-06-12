@@ -53,7 +53,7 @@ export default function Search() {
   });
 
   const donors = donorsData?.donors || [];
-  const totalDonors = 247; // This would come from the API in a real implementation
+  const totalDonors = donorsData?.total || 0;
 
   const handleFilterChange = (key: string, value: string) => {
     // Convert "all" values to empty strings for API compatibility

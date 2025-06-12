@@ -107,10 +107,23 @@ export async function registerRoutes(app: Express): Promise<Server> {
         offset: offset,
       });
       
+      // Get total count with the same filters
+      const totalCount = await storage.getDonorCount({
+        bloodGroup: bloodGroup as string,
+        district: district as string,
+        isAvailable: isAvailable === 'true' ? true : undefined,
+      });
+      
       // Remove passwords from response
       const donorsResponse = donors.map(({ password, ...donor }) => donor);
       
-      res.json({ donors: donorsResponse });
+      res.json({ 
+        donors: donorsResponse, 
+        total: totalCount,
+        page: Number(page),
+        limit: Number(limit),
+        totalPages: Math.ceil(totalCount / Number(limit))
+      });
     } catch (error) {
       console.error("Donor search error:", error);
       res.status(500).json({ message: "Internal server error" });

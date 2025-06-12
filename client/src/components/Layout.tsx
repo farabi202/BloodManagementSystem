@@ -33,7 +33,6 @@ export default function Layout({ children, onEmergencyClick }: LayoutProps) {
     ] : [
       { href: '/register', label: 'Register' },
       { href: '/login', label: 'Login' },
-      { href: '/admin-login', label: 'Admin Login' },
     ])
   ];
 

@@ -1,6 +1,6 @@
 import { users, emergencyRequests, donations, type User, type InsertUser, type EmergencyRequest, type InsertEmergencyRequest, type Donation, type InsertDonation } from "@shared/schema";
 import { db } from "./db";
-import { eq } from "drizzle-orm";
+import { eq, sql } from "drizzle-orm";
 import bcrypt from "bcrypt";
 
 export interface IStorage {
@@ -20,6 +20,12 @@ export interface IStorage {
     limit?: number;
     offset?: number;
   }): Promise<User[]>;
+  
+  getDonorCount(filters: {
+    bloodGroup?: string;
+    district?: string;
+    isAvailable?: boolean;
+  }): Promise<number>;
   
   // Emergency request methods
   createEmergencyRequest(request: InsertEmergencyRequest): Promise<EmergencyRequest>;
@@ -140,6 +146,29 @@ export class DatabaseStorage implements IStorage {
     const limit = filters.limit || 50;
     
     return filteredUsers.slice(offset, offset + limit);
+  }
+
+  async getDonorCount(filters: {
+    bloodGroup?: string;
+    district?: string;
+    isAvailable?: boolean;
+  }): Promise<number> {
+    const allUsers = await db.select().from(users).where(eq(users.isAdmin, false));
+    let filteredUsers = allUsers;
+    
+    if (filters.bloodGroup) {
+      filteredUsers = filteredUsers.filter(user => user.bloodGroup === filters.bloodGroup);
+    }
+    
+    if (filters.district) {
+      filteredUsers = filteredUsers.filter(user => user.district === filters.district);
+    }
+    
+    if (filters.isAvailable !== undefined) {
+      filteredUsers = filteredUsers.filter(user => user.isAvailable === filters.isAvailable);
+    }
+    
+    return filteredUsers.length;
   }
 
   async createEmergencyRequest(request: InsertEmergencyRequest): Promise<EmergencyRequest> {
