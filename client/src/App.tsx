@@ -15,7 +15,7 @@ import Login from "@/pages/Login";
 import AdminLogin from "@/pages/AdminLogin";
 import Dashboard from "@/pages/Dashboard";
 import Search from "@/pages/Search";
-import Profile from "@/pages/Profile";
+import SimpleProfile from "@/pages/SimpleProfile";
 import Admin from "@/pages/Admin";
 import NotFound from "@/pages/not-found";
 
@@ -31,6 +31,7 @@ function Router() {
         <Route path="/admin-login" component={AdminLogin} />
         <Route path="/dashboard" component={Dashboard} />
         <Route path="/search" component={Search} />
+        <Route path="/profile" component={SimpleProfile} />
         <Route path="/admin" component={Admin} />
         <Route component={NotFound} />
       </Switch>
